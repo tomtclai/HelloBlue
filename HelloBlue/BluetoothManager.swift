@@ -40,8 +40,8 @@ class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         // In this example, we are looking for devices of a specific name, one could look for devices of a certain UUID, or other data which may be available in the advertisingData
         // Please look at the back of your device to find out it's name. 
         // You should check your log to see if you are discovering a device with the correct name
-        if peripheral.name == "RigCom" {
-        //if peripheral.name == "EvalDemo" {
+//        if peripheral.name == "RigCom" {
+        if peripheral.name == "matt" {
             self.peripheral = peripheral
             centralManager?.connect(peripheral, options: nil)
         }
@@ -70,6 +70,11 @@ class BluetoothManager : NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     // MARK: Peripheral Delegate Methods
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        let services = peripheral.services
+        print("Peripheral did Discover services \(services)")
+        for service in peripheral.services! {
+            peripheral.discoverCharacteristics(nil, for: service)
+        }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
